@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 //Check if the Rocketreach Title contains the name from the filename 
 const containsCompanyName = (file, data) => {
     const companyRE = /(?<=\| )[A-Za-z0-9]{1,}/g;
@@ -36,6 +38,14 @@ const getJobDataFromString = (string, company) => {
     return {name: string.match(agentNameRegex)[0], position: (string.match(agentPositionRegex) ? string.match(agentPositionRegex)[0] : 'Not known'), company: company}
 }
 
+const removeSaas = (file, dir) => {
+    fs.renameSync(dir+"/"+file, dir+"/"+file.replace('saas-', ''));
+    file = file.replace('saas-', '');
+    return file;
+}
+
+
 module.exports.removeFileExtension = removeFileExtension;
 module.exports.containsCompanyName = containsCompanyName;
 module.exports.getJobDataFromString = getJobDataFromString;
+module.exports.removeSaas = removeSaas;

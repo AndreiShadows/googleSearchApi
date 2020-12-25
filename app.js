@@ -11,11 +11,9 @@ const Job = require('./models/Job');
 mongoose.connect(process.env.DB_CONNECTION, { useNewUrlParser: true, useUnifiedTopology: true}, () => {console.log('Conected to DB!')})
 
 const insertNameAndPosition = async () => {
-
     const fullFileData = require('./data.json');
     let insertionData = [];
 
-    let index = 0;
     //Go going through every company's data
     fullFileData.map(companyData => {
 
@@ -24,7 +22,6 @@ const insertNameAndPosition = async () => {
 
             //Get the name, position and company and push it in the global array
             insertionData.push(helpers.getJobDataFromString(individualData, companyData.company));
-            index++;
         })
     })
 

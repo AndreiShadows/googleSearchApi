@@ -15,9 +15,13 @@ const readDir = async (dir) => {
 
         //Map through each individual folder in the dir directory
         files.map((file) => {
+            //If the file contains 'saas-', rename it with a propper name (exlude "saas-" to be more specific)
+            if(file.includes('saas-')) file = helpers.removeSaas(file, dir);
+
             //Get the data from file and delete all props except the title
             data = require(`${dir}/${file}`);
             data = data.map(row => row.title);
+            
 
             //Check if the record contains the company name from the file name
             data = data.filter(row => helpers.containsCompanyName(file, row))
@@ -30,7 +34,6 @@ const readDir = async (dir) => {
 
             //Push it in the array constructed above, witch later will be saved in a .json file
             fullData.push(dataFromFile);
-
         })
 
         //Make the result JSON and insert in the data.json file, witch respresents the final data .
